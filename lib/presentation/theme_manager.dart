@@ -1,4 +1,5 @@
 import 'package:adv_tut/presentation/color_manager.dart';
+import 'package:adv_tut/presentation/values_manager.dart';
 import 'package:flutter/material.dart';
 
 ThemeData getApplicationTheme() {
@@ -13,7 +14,11 @@ ThemeData getApplicationTheme() {
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: ColorManager.grey), // instead accentColor
 
     // card view theme
-
+    cardTheme: CardTheme(
+      color: ColorManager.white,
+      shadowColor: ColorManager.grey,
+      elevation: AppSize.s4,
+    ),
     // App bar theme
 
     // Button theme
