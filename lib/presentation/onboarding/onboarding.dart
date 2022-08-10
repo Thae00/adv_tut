@@ -36,7 +36,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       backgroundColor: ColorManager.white,
       appBar: AppBar(
         backgroundColor: ColorManager.darkGrey,
-        elevation: AppSize.s1_5,
+        elevation: AppSize.s0,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
           statusBarBrightness: Brightness.dark,
@@ -68,14 +68,103 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 onPressed: () {},
                 child: Text(
                   AppStrings.skip,
+                  style: Theme.of(context).textTheme.subtitle2,
                   textAlign: TextAlign.end,
-                ),),
-              // add layout for indicator and arrows
+                ),
+              ),
             ),
+            // add layout for indicator and arrows
+            _getBottomSheetWidget(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _getBottomSheetWidget() {
+    return Container(
+      color: ColorManager.primary,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          //left arrow
+          Padding(
+            padding: EdgeInsets.all(AppPadding.p14),
+            child: GestureDetector(
+              child: SizedBox(
+                height: AppSize.s20,
+                width: AppSize.s20,
+                child: SvgPicture.asset(ImageAssets.leftArrowic),
+              ),
+              onTap: () {
+                //go to Previous slide
+                _pageController.animateToPage(
+                  _getPreviousIndex(),
+                  duration: Duration(milliseconds: DurationConstant.d300),
+                  curve: Curves.bounceInOut,
+                );
+              },
+            ),
+          ),
+          // circles indicator
+          Row(
+            children: [
+              for (int i = 0; i < _list.length; i++)
+                Padding(
+                  padding: EdgeInsets.all(AppPadding.p8),
+                  child: _getProperCircle(i),
+                ),
+            ],
+          ),
+
+          //right arrow
+          Padding(
+            padding: EdgeInsets.all(AppPadding.p14),
+            child: GestureDetector(
+              child: SizedBox(
+                height: AppSize.s20,
+                width: AppSize.s20,
+                child: SvgPicture.asset(ImageAssets.rightArrowic),
+              ),
+              onTap: () {
+                //go to next slide
+                _pageController.animateToPage(
+                  _getNextIndex(),
+                  duration: Duration(milliseconds: DurationConstant.d300),
+                  curve: Curves.bounceInOut,
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  int _getPreviousIndex() {
+    int previousIndex = _currentIndex--; //-1
+    if (previousIndex == -1) {
+      _currentIndex =
+          _list.length - 1; //infinite loop to go to the length of slider list
+    }
+    return _currentIndex;
+  }
+
+  int _getNextIndex() {
+    int nextIndex = _currentIndex++; //+1
+    if (nextIndex >= _list.length) {
+      _currentIndex = 0; //infinite loop to go to first item inside th slider
+    }
+    return _currentIndex;
+  }
+
+  Widget _getProperCircle(int index) {
+    if (index == _currentIndex) {
+      return SvgPicture.asset(ImageAssets.hollowCirlceic); //selected slider
+    } else {
+      return SvgPicture.asset(
+          ImageAssets.solidCircleic); //unselected slider //s
+    }
   }
 }
 
