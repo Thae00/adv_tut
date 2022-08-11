@@ -35,7 +35,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     return Scaffold(
       backgroundColor: ColorManager.white,
       appBar: AppBar(
-        backgroundColor: ColorManager.darkGrey,
+        backgroundColor: ColorManager.white,
         elevation: AppSize.s0,
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
